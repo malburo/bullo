@@ -38,3 +38,35 @@ export const GET_BOARDS = gql`
     }
   }
 `;
+
+export const GET_BOARD = gql`
+  query getBoard($id: ID!) {
+    board(id: $id) {
+      id
+      isPrivate
+      title
+      members {
+        id
+        profilePictureUrl
+      }
+      lists {
+        id
+        title
+        cards {
+          id
+          coverUrl
+          title
+          members {
+            id
+            profilePictureUrl
+          }
+          labels {
+            id
+            name
+            color
+          }
+        }
+      }
+    }
+  }
+`;
