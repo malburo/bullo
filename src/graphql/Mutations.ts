@@ -27,3 +27,15 @@ export const CREATE_BOARD = gql`
     }
   }
 `;
+export const UPDATE_MEMBERS_MUTATION = gql`
+  mutation createBoard($input: createBoardInput!) {
+    createBoard(input: $input) {
+      id
+      coverUrl
+      title
+      members {
+        profilePictureUrl
+      }
+    }
+  }
+`;

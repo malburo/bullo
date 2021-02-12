@@ -70,3 +70,12 @@ export const GET_BOARD = gql`
     }
   }
 `;
+
+export const GET_USERS = gql`
+  query getUsers{
+    users {
+      id
+      username
+    }
+  }
+`
