@@ -35,3 +35,18 @@ export const ADD_MEMBER_MUTATION = gql`
     }
   }
 `;
+
+export const CREATE_LIST = gql`
+  mutation createList($input: createListInput!) {
+    createList(input: $input) {
+      id
+    }
+  }
+`;
+export const CREATE_TASK = gql`
+  mutation createTask($input: createTaskInput!) {
+    createTask(input: $input) {
+      id
+    }
+  }
+`;

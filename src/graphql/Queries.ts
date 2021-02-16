@@ -13,6 +13,15 @@ export interface User {
   email: string;
   profilePictureUrl: string;
 }
+export interface IList {
+  id: string;
+  title: string;
+  tasks?: [ITask];
+}
+export interface ITask {
+  id: string;
+  title: string;
+}
 export const GET_ME_QUERIES = gql`
   query getMe {
     id
@@ -52,7 +61,7 @@ export const GET_BOARD = gql`
       lists {
         id
         title
-        cards {
+        tasks {
           id
           coverUrl
           title
@@ -72,10 +81,10 @@ export const GET_BOARD = gql`
 `;
 
 export const GET_USERS = gql`
-  query getUsers{
+  query getUsers {
     users {
       id
       username
     }
   }
-`
+`;
