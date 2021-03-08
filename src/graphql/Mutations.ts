@@ -50,3 +50,19 @@ export const CREATE_TASK = gql`
     }
   }
 `;
+
+export const UPDATE_POS_LIST = gql`
+  mutation updatePosList($input: updatePosListInput!) {
+    updatePosList(input: $input) {
+      message
+    }
+  }
+`;
+
+export const UPDATE_POS_TASK = gql`
+  mutation updatePosTask($input: updatePosTaskInput!) {
+    updatePosTask(input: $input) {
+      message
+    }
+  }
+`;

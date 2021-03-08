@@ -16,7 +16,7 @@ export interface User {
 export interface IList {
   id: string;
   title: string;
-  tasks?: [ITask];
+  tasks: ITask[];
 }
 export interface ITask {
   id: string;
