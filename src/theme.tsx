@@ -29,7 +29,13 @@ const theme = createMuiTheme({
         },
       },
     },
+    MuiAvatar: {
+      rounded: {
+        borderRadius: 8,
+      },
+    },
   },
+
   typography: {
     fontFamily: ["Poppins", "sans-serif"].join(","),
   },
