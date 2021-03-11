@@ -2,7 +2,7 @@ import { useQuery } from "@apollo/client";
 import { Container, Grid, Typography } from "@material-ui/core";
 import { Board, GET_BOARDS } from "../../../graphql/Queries";
 import BoardCard from "../components/BoardCard";
-import CreateBoardDialog from "../components/CreateBoardForm";
+import AddBoard from "../components/Form/AddBoard";
 
 const Boards: React.FC = () => {
   const { loading, error, data } = useQuery(GET_BOARDS);
@@ -22,7 +22,7 @@ const Boards: React.FC = () => {
           </Typography>
         </Grid>
         <Grid item>
-          <CreateBoardDialog />
+          <AddBoard />
         </Grid>
       </Grid>
       <Grid container spacing={3}>

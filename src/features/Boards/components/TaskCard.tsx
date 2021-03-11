@@ -7,10 +7,13 @@ import { ITask } from "../../../graphql/Queries";
 
 const useStyles = makeStyles({
   root: {
-    width: 243,
-    padding: 20,
+    width: 250,
+    padding: 16,
     borderRadius: 12,
     boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.05)",
+    whiteSpace: "normal",
+    boxSizing: "border-box",
+    marginBottom: 24,
   },
   cover: {
     width: "100%",
@@ -23,7 +26,7 @@ interface Props {
   data: ITask;
   index: number;
 }
-const Task: React.FC<Props> = ({ data, index }: any) => {
+const TaskCard: React.FC<Props> = ({ data, index }: any) => {
   const classes = useStyles();
   return (
     <Draggable draggableId={data.id} index={index}>
@@ -52,4 +55,4 @@ const Task: React.FC<Props> = ({ data, index }: any) => {
     </Draggable>
   );
 };
-export default Task;
+export default TaskCard;
