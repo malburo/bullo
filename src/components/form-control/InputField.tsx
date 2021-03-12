@@ -4,17 +4,17 @@ import {
   TextField,
   Typography,
 } from "@material-ui/core";
-import { Controller } from "react-hook-form";
+import { Controller, UseFormMethods } from "react-hook-form";
 
 interface InputFieldProps {
-  form: any;
+  form: UseFormMethods<any>;
   name: string;
   label?: string;
   disabled?: boolean;
   placeholder?: string;
-  startIcon?: any;
-  endIcon?: any;
   size?: string;
+  startIcon?: JSX.Element;
+  endIcon?: JSX.Element;
 }
 
 const InputField: React.FC<InputFieldProps> = (props) => {
@@ -23,9 +23,9 @@ const InputField: React.FC<InputFieldProps> = (props) => {
     name,
     disabled,
     placeholder,
-    startIcon,
     label,
     size,
+    startIcon,
     endIcon,
   } = props;
   const { errors } = form;

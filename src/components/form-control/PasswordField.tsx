@@ -5,16 +5,17 @@ import OutlinedInput from "@material-ui/core/OutlinedInput";
 import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
 import { useState } from "react";
-import { Controller } from "react-hook-form";
+import { Controller, UseFormMethods } from "react-hook-form";
 
 interface PasswordFieldProps {
-  form: any;
+  form: UseFormMethods<any>;
   name: string;
   label?: string;
   disabled?: boolean;
   placeholder?: string;
-  startIcon?: any;
   size?: string;
+  startIcon?: JSX.Element;
+  endIcon?: JSX.Element;
 }
 
 const PasswordField: React.FC<PasswordFieldProps> = (props) => {
