@@ -5,6 +5,20 @@ import React from "react";
 import { Draggable } from "react-beautiful-dnd";
 import { ITask } from "../../../graphql/Queries";
 
+export const getItemStyle = (isDragging: boolean, draggableStyle: any) => {
+  return {
+    userSelect: "none",
+    margin: `0 0 50px 0`,
+    ...draggableStyle,
+  };
+};
+
+export const getTasktStyle = (isDraggingOver: boolean) => ({
+  background: isDraggingOver ? "lightblue" : "lightgrey",
+  padding: 30,
+  width: 250,
+});
+
 const useStyles = makeStyles({
   root: {
     width: 250,
@@ -13,7 +27,7 @@ const useStyles = makeStyles({
     boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.05)",
     whiteSpace: "normal",
     boxSizing: "border-box",
-    marginBottom: 24,
+    transition: "all 0.2s",
   },
   cover: {
     width: "100%",
@@ -30,11 +44,15 @@ const TaskCard: React.FC<Props> = ({ data, index }: any) => {
   const classes = useStyles();
   return (
     <Draggable draggableId={data.id} index={index}>
-      {(provided) => (
+      {(provided, snapshot) => (
         <div
           {...provided.draggableProps}
           {...provided.dragHandleProps}
           ref={provided.innerRef}
+          style={getItemStyle(
+            snapshot.isDragging,
+            provided.draggableProps.style
+          )}
         >
           <Card className={classes.root}>
             <img

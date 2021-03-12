@@ -139,29 +139,21 @@ const BoardDetail: React.FC = (): any => {
         </AvatarGroup>
         <AddMember />
       </Grid>
-      <div>
-        <DragDropContext onDragEnd={onDragEnd} onDragStart={onDragStart}>
-          <Droppable
-            droppableId="all-lists"
-            direction="horizontal"
-            type="lists"
-          >
-            {(provided) => (
-              <div ref={provided.innerRef} {...provided.droppableProps}>
-                <div style={{ whiteSpace: "nowrap" }}>
-                  {lists.map((item: IList, index: number) => (
-                    <ListCard data={item} index={index} key={item.id} />
-                  ))}
-                  {provided.placeholder}
-                  {isDrag || (
-                    <AddList listLength={data?.board?.lists?.length} />
-                  )}
-                </div>
+      <DragDropContext onDragEnd={onDragEnd} onDragStart={onDragStart}>
+        <Droppable droppableId="all-lists" direction="horizontal" type="lists">
+          {(provided) => (
+            <div ref={provided.innerRef} {...provided.droppableProps}>
+              <div style={{ whiteSpace: "nowrap" }}>
+                {lists.map((item: IList, index: number) => (
+                  <ListCard data={item} index={index} key={item.id} />
+                ))}
+                {provided.placeholder}
+                {isDrag || <AddList listLength={data?.board?.lists?.length} />}
               </div>
-            )}
-          </Droppable>
-        </DragDropContext>
-      </div>
+            </div>
+          )}
+        </Droppable>
+      </DragDropContext>
     </div>
   );
 };
