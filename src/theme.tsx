@@ -34,6 +34,20 @@ const theme = createMuiTheme({
         borderRadius: 8,
       },
     },
+    MuiPaper: {
+      elevation8: { boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.05)" },
+    },
+    MuiIconButton: {
+      root: {
+        color: "#fff",
+        borderRadius: "8px",
+        background: "#2F80ED",
+        padding: "8px",
+        "&:hover": {
+          backgroundColor: "#276fce",
+        },
+      },
+    },
   },
 
   typography: {

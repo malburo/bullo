@@ -1,24 +1,21 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { useMutation, useQuery } from "@apollo/client";
-import { Avatar, Button, Grid, makeStyles } from "@material-ui/core";
-import LockIcon from "@material-ui/icons/Lock";
+import { Avatar, Box, Grid, makeStyles } from "@material-ui/core";
+import { AvatarGroup } from "@material-ui/lab";
 import { useEffect, useState } from "react";
 import { DragDropContext, Droppable, DropResult } from "react-beautiful-dnd";
 import { useParams } from "react-router-dom";
 import { UPDATE_POS_LIST, UPDATE_POS_TASK } from "../../../graphql/Mutations";
 import { GET_BOARD, IList, User } from "../../../graphql/Queries";
 import { findItemFromArray } from "../../../utils";
+import EditVisibility from "../components/EditVisibility";
 import AddList from "../components/Form/AddList";
 import AddMember from "../components/Form/AddMember";
 import ListCard from "../components/ListCard";
-import { AvatarGroup } from "@material-ui/lab";
+
 const useStyles = makeStyles({
-  root: {
-    margin: 24,
-  },
   avatar: {
-    marginRight: 8,
-    marginLeft: 8,
+    marginRight: "16px",
   },
 });
 
@@ -26,7 +23,7 @@ interface Params {
   boardId: string;
 }
 
-const BoardDetail: React.FC = (): any => {
+const BoardDetail: React.FC = () => {
   const classes = useStyles();
   const { boardId } = useParams<Params>();
   const [lists, setLists] = useState<IList[]>([]);
@@ -123,38 +120,46 @@ const BoardDetail: React.FC = (): any => {
     setIsDrag(false);
   };
   return (
-    <div className={classes.root}>
-      <Grid container>
-        <Button color="secondary" startIcon={<LockIcon />}>
-          Private
-        </Button>
-        <AvatarGroup max={10} classes={{ avatar: classes.avatar }}>
-          {data.board.members.map((member: User) => (
-            <Avatar
-              variant="rounded"
-              src={member.profilePictureUrl}
-              key={member.id}
-            />
-          ))}
-        </AvatarGroup>
-        <AddMember />
-      </Grid>
-      <DragDropContext onDragEnd={onDragEnd} onDragStart={onDragStart}>
-        <Droppable droppableId="all-lists" direction="horizontal" type="lists">
-          {(provided) => (
-            <div ref={provided.innerRef} {...provided.droppableProps}>
-              <div style={{ whiteSpace: "nowrap" }}>
-                {lists.map((item: IList, index: number) => (
-                  <ListCard data={item} index={index} key={item.id} />
-                ))}
-                {provided.placeholder}
-                {isDrag || <AddList listLength={data?.board?.lists?.length} />}
+    <Box margin="24px">
+      <Box margin="35px 0px 24px 0px">
+        <Grid container alignItems="center">
+          <EditVisibility />
+          <AvatarGroup max={10} classes={{ avatar: classes.avatar }}>
+            {data.board.members.map((member: User) => (
+              <Avatar
+                variant="rounded"
+                src={member.profilePictureUrl}
+                key={member.id}
+              />
+            ))}
+          </AvatarGroup>
+          <AddMember />
+        </Grid>
+      </Box>
+      <Box bgcolor="#F8F9FD" padding="24px" minHeight="65vh">
+        <DragDropContext onDragEnd={onDragEnd} onDragStart={onDragStart}>
+          <Droppable
+            droppableId="all-lists"
+            direction="horizontal"
+            type="lists"
+          >
+            {(provided) => (
+              <div ref={provided.innerRef} {...provided.droppableProps}>
+                <div style={{ whiteSpace: "nowrap" }}>
+                  {lists.map((item: IList, index: number) => (
+                    <ListCard data={item} index={index} key={item.id} />
+                  ))}
+                  {provided.placeholder}
+                  {isDrag || (
+                    <AddList listLength={data?.board?.lists?.length} />
+                  )}
+                </div>
               </div>
-            </div>
-          )}
-        </Droppable>
-      </DragDropContext>
-    </div>
+            )}
+          </Droppable>
+        </DragDropContext>
+      </Box>
+    </Box>
   );
 };
 

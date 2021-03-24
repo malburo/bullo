@@ -1,20 +1,42 @@
-import { Box, Grid, Typography } from "@material-ui/core";
+import { Box, Button, Grid, Typography, withStyles } from "@material-ui/core";
+import AddIcon from "@material-ui/icons/Add";
 import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
+import { useState } from "react";
 import { Draggable, Droppable } from "react-beautiful-dnd";
 import { IList, ITask } from "../../../graphql/Queries";
 import AddTask from "./Form/AddTask";
 import TaskCard from "./TaskCard";
 
+const AddButton = withStyles({
+  root: {
+    background: "#DAE4FD",
+    borderRadius: 8,
+    color: "#2F80ED",
+    height: 32,
+    width: 250,
+    padding: "8px 15px",
+    boxShadow: "none",
+  },
+  label: {
+    justifyContent: "space-between",
+  },
+})(Button);
+
 export const getItemStyle = (isDragging: boolean, draggableStyle: any) => {
   return {
     userSelect: "none",
-    marginRight: "50px",
+    marginRight: "32px",
     ...draggableStyle,
   };
 };
 
 export const getListStyle = (isDraggingOver: boolean) => ({
-  background: isDraggingOver ? "lightblue" : "lightgrey",
+  background: "rgb(248, 249, 253)",
+
+  marginBottom: "12px",
+  "&:hover": {
+    background: "black",
+  },
 });
 
 interface Props {
@@ -22,10 +44,15 @@ interface Props {
   index: number;
 }
 const ListCard: React.FC<Props> = ({ data, index }) => {
+  const [isHiddenAddTask, setIsHiddenAddTask] = useState<boolean>(true);
+  const [isHiddenAddList, setIsHiddenAddList] = useState<boolean>(true);
+  const handleClickAddTaskButton = () => {
+    setIsHiddenAddTask((prev) => !prev);
+  };
   return (
     <Draggable draggableId={data.id} index={index}>
       {(provided, snapshot) => (
-        <div style={{ display: "inline-block", verticalAlign: "top" }}>
+        <Box display="inline-block" style={{ verticalAlign: "top" }}>
           <Box>
             <div
               {...provided.draggableProps}
@@ -35,11 +62,13 @@ const ListCard: React.FC<Props> = ({ data, index }) => {
                 provided.draggableProps.style
               )}
             >
-              <div
-                {...provided.dragHandleProps}
-                style={getListStyle(snapshot.isDragging)}
-              >
-                <Grid container justify="space-between">
+              <Box>
+                <Grid
+                  container
+                  justify="space-between"
+                  {...provided.dragHandleProps}
+                  style={getListStyle(snapshot.isDragging)}
+                >
                   <Grid item>
                     <Typography>{data.title}</Typography>
                   </Grid>
@@ -47,7 +76,7 @@ const ListCard: React.FC<Props> = ({ data, index }) => {
                     <MoreHorizIcon />
                   </Grid>
                 </Grid>
-                <Box bgcolor="#F8F9FD" borderRadius="12px">
+                <Box borderRadius="8px">
                   <Droppable droppableId={data.id} type="tasks">
                     {(provided) => (
                       <div ref={provided.innerRef} {...provided.droppableProps}>
@@ -60,12 +89,21 @@ const ListCard: React.FC<Props> = ({ data, index }) => {
                       </div>
                     )}
                   </Droppable>
-                  <AddTask listId={data.id} taskLength={data.tasks.length} />
                 </Box>
-              </div>
+              </Box>
+              {isHiddenAddTask || (
+                <AddTask listId={data.id} taskLength={data.tasks.length} />
+              )}
+              <AddButton
+                onClick={handleClickAddTaskButton}
+                variant="contained"
+                endIcon={<AddIcon />}
+              >
+                Add another card
+              </AddButton>
             </div>
           </Box>
-        </div>
+        </Box>
       )}
     </Draggable>
   );

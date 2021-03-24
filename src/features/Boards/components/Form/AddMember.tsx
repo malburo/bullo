@@ -1,7 +1,7 @@
 import { useMutation } from "@apollo/client";
-import { Button, Popover } from "@material-ui/core";
+import { Box, Button, IconButton, Popover } from "@material-ui/core";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
-import ImageIcon from "@material-ui/icons/Image";
+import AddIcon from "@material-ui/icons/Add";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useParams } from "react-router-dom";
@@ -70,13 +70,10 @@ const AddMember: React.FC = () => {
   };
   return (
     <div>
-      <Button
-        aria-describedby={id}
-        onClick={handleClick}
-        variant="contained"
-        startIcon={<ImageIcon />}
-        fullWidth
-      />
+      <IconButton aria-describedby={id} onClick={handleClick}>
+        <AddIcon />
+      </IconButton>
+
       <Popover
         id={id}
         open={open}
