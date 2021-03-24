@@ -7,6 +7,7 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import ViewListIcon from "@material-ui/icons/ViewList";
 import { useState } from "react";
+import { useHistory } from "react-router-dom";
 import Logo from "../public/Logo-small.svg";
 import Search from "./Search";
 
@@ -40,6 +41,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const Header: React.FC = () => {
   const classes = useStyles();
+  const history = useHistory( );
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
   const handleProfileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
@@ -59,7 +61,11 @@ const Header: React.FC = () => {
           Devchanllenge Board
         </Typography>
         <div className={classes.line} />
-        <Button color="secondary" startIcon={<ViewListIcon />}>
+        <Button
+          color="secondary"
+          startIcon={<ViewListIcon />}
+          onClick={() => history.push("/boards")}
+        >
           All Boards
         </Button>
         <div className={classes.search}>
