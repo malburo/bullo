@@ -9,7 +9,6 @@ import { UPDATE_POS_LIST, UPDATE_POS_TASK } from "../../../graphql/Mutations";
 import { GET_BOARD, IList, User } from "../../../graphql/Queries";
 import { findItemFromArray } from "../../../utils";
 import EditVisibility from "../components/EditVisibility";
-import AddList from "../components/Form/AddList";
 import AddMember from "../components/Form/AddMember";
 import ListCard from "../components/ListCard";
 
@@ -120,7 +119,7 @@ const BoardDetail: React.FC = () => {
     setIsDrag(false);
   };
   return (
-    <Box margin="24px">
+    <Box>
       <Box margin="35px 0px 24px 0px">
         <Grid container alignItems="center">
           <EditVisibility />
@@ -136,24 +135,31 @@ const BoardDetail: React.FC = () => {
           <AddMember />
         </Grid>
       </Box>
-      <Box bgcolor="#F8F9FD" padding="24px" minHeight="65vh">
+      <Box
+        padding="24px"
+        style={{
+          overflowX: "scroll",
+          overflowY: "hidden",
+          width: "100%",
+        }}
+      >
         <DragDropContext onDragEnd={onDragEnd} onDragStart={onDragStart}>
           <Droppable
             droppableId="all-lists"
             direction="horizontal"
+            isCombineEnabled={true}
             type="lists"
           >
             {(provided) => (
-              <div ref={provided.innerRef} {...provided.droppableProps}>
-                <div style={{ whiteSpace: "nowrap" }}>
-                  {lists.map((item: IList, index: number) => (
-                    <ListCard data={item} index={index} key={item.id} />
-                  ))}
-                  {provided.placeholder}
-                  {isDrag || (
-                    <AddList listLength={data?.board?.lists?.length} />
-                  )}
-                </div>
+              <div
+                ref={provided.innerRef}
+                {...provided.droppableProps}
+                style={{ display: "inline-flex", flexWrap: "nowrap" }}
+              >
+                {lists.map((item: IList, index: number) => (
+                  <ListCard data={item} index={index} key={item.id} />
+                ))}
+                {provided.placeholder}
               </div>
             )}
           </Droppable>

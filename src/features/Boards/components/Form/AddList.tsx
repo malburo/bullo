@@ -1,5 +1,5 @@
 import { useMutation } from "@apollo/client";
-import { Button, Popover } from "@material-ui/core";
+import { Box, Button, Grid, InputBase } from "@material-ui/core";
 import {
   createStyles,
   makeStyles,
@@ -10,7 +10,7 @@ import AddIcon from "@material-ui/icons/Add";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useParams } from "react-router-dom";
-import InputField from "../../../../components/form-control/InputField";
+import MyBox from "../../../../components/common/MyBox";
 import { CREATE_LIST } from "../../../../graphql/Mutations";
 import { GET_BOARD } from "../../../../graphql/Queries";
 
@@ -52,8 +52,13 @@ interface Props {
 const AddList: React.FC<Props> = ({ listLength }) => {
   const classes = useStyles();
   const { boardId } = useParams<Params>();
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-
+  const [isToggle, setIsToggle] = useState<boolean>(false);
+  const handleClick = () => {
+    setIsToggle(true);
+  };
+  const handleCancel = () => {
+    setIsToggle(false);
+  };
   const [addMember] = useMutation(CREATE_LIST, {
     refetchQueries: [
       {
@@ -62,16 +67,6 @@ const AddList: React.FC<Props> = ({ listLength }) => {
       },
     ],
   });
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-
-  const open = Boolean(anchorEl);
-  const id = open ? "simple-popper" : undefined;
 
   const form = useForm({
     mode: "onSubmit",
@@ -93,35 +88,57 @@ const AddList: React.FC<Props> = ({ listLength }) => {
     });
   };
   return (
-    <div style={{ display: "inline-block", position: "absolute" }}>
-      <AddButton
-        aria-describedby={id}
-        onClick={handleClick}
-        variant="contained"
-        endIcon={<AddIcon />}
-      >
-        Add List
-      </AddButton>
-      <Popover
-        id={id}
-        open={open}
-        anchorEl={anchorEl}
-        onClose={handleClose}
-        anchorOrigin={{
-          vertical: "bottom",
-          horizontal: "center",
-        }}
-        transformOrigin={{
-          vertical: "top",
-          horizontal: "center",
-        }}
-      >
-        <div className={classes.paper}>
-          <form id="update-form" onSubmit={form.handleSubmit(onSubmit)}>
-            <InputField name="title" form={form} />
+    <div>
+      {isToggle || (
+        <AddButton
+          onClick={handleClick}
+          variant="contained"
+          endIcon={<AddIcon />}
+        >
+          Add another card
+        </AddButton>
+      )}
+      {isToggle && (
+        <MyBox>
+          <form onSubmit={form.handleSubmit(onSubmit)}>
+            <Grid
+              container
+              direction="column"
+              justify="center"
+              alignItems="flex-start"
+            >
+              <InputBase
+                name="title"
+                placeholder="Enter a title for this list..."
+                inputRef={form.register}
+              />
+              <Box
+                display="flex"
+                alignItems="center"
+                justifyContent="flex-end"
+                width="100%"
+                marginTop="12px"
+              >
+                <Button
+                  type="submit"
+                  variant="contained"
+                  color="primary"
+                  style={{ marginRight: 12 }}
+                >
+                  save
+                </Button>
+                <Button
+                  variant="contained"
+                  color="secondary"
+                  onClick={handleCancel}
+                >
+                  cancel
+                </Button>
+              </Box>
+            </Grid>
           </form>
-        </div>
-      </Popover>
+        </MyBox>
+      )}
     </div>
   );
 };
